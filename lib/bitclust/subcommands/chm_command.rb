@@ -40,9 +40,152 @@ EOS
 <meta http-equiv="Content-Type" content="text/html; charset=Windows-31J">
 </HEAD>
 <BODY>
-<UL><% [:library].each do |k| %>
-<%= @sitemap[k].to_html %>
-<% end %></UL>
+<UL>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="はじめに">
+        <param name="Local" value="doc/spec=2fintro.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="コマンド">
+        <param name="Local" value="doc/spec=2fcommands.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="Rubyの起動">
+        <param name="Local" value="doc/spec=2frubycmd.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="環境変数">
+        <param name="Local" value="doc/spec=2fenvvars.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="Ruby言語仕様">
+        </OBJECT>
+<UL>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="Ruby でのオブジェクト">
+        </OBJECT>
+<UL>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="オブジェクト">
+        <param name="Local" value="doc/spec=2fobject.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="クラス">
+        <param name="Local" value="doc/spec=2fclass.html">
+        </OBJECT>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="プロセスの実行">
+        </OBJECT>
+<UL>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="Ruby プログラムの実行">
+        <param name="Local" value="doc/spec=2feval.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="終了処理">
+        <param name="Local" value="doc/spec=2fterminate.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="スレッド">
+        <param name="Local" value="doc/spec=2fthread.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="セキュリティモデル">
+        <param name="Local" value="doc/spec=2fsafelevel.html">
+        </OBJECT>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="Ruby の文法">
+        </OBJECT>
+<UL>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="字句構造">
+        <param name="Local" value="doc/spec=2flexical.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="プログラム・文・式">
+        <param name="Local" value="doc/spec=2fprogram.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="変数と定数">
+        <param name="Local" value="doc/spec=2fvariables.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="リテラル">
+        <param name="Local" value="doc/spec=2fliteral.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="演算子式">
+        <param name="Local" value="doc/spec=2foperator.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="制御構造">
+        <param name="Local" value="doc/spec=2fcontrol.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="メソッド呼び出し(super・ブロック付き・yield)">
+        <param name="Local" value="doc/spec=2fcall.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="クラス／メソッドの定義">
+        <param name="Local" value="doc/spec=2fdef.html">
+        </OBJECT>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="多言語化">
+        <param name="Local" value="doc/spec=2fm17n.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="正規表現">
+        <param name="Local" value="doc/spec=2fregexp.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="手続きオブジェクトの挙動の詳細">
+        <param name="Local" value="doc/spec=2flambda_proc.html">
+        </OBJECT>
+</UL>
+</UL>
+<!-- library -->
+<UL>
+<% [:library].each do |k| %>
+<%= @sitemap[k].contents.first.to_html %>
+<%= @sitemap[k].contents.last.to_html %>
+<% end %>
+<!-- library end -->
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="Ruby変更履歴">
+        <param name="Local" value="doc/news=2findex.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="pack テンプレート文字列">
+        <param name="Local" value="doc/pack_template.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="sprintf フォーマット">
+        <param name="Local" value="doc/print_format.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="Ruby用語集">
+        <param name="Local" value="doc/glossary.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="Rubyで使われる記号の意味">
+        <param name="Local" value="doc/symref.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="Marshal フォーマット">
+        <param name="Local" value="doc/marshal_format.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="配布条件">
+        <param name="Local" value="doc/license.html">
+        </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+        <param name="Name" value="このマニュアルのヘルプ">
+        <param name="Local" value="doc/help.html">
+        </OBJECT>
+</UL>
 </BODY>
 </HTML>
 EOS
