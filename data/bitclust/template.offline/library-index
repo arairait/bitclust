@@ -2,10 +2,37 @@
  @title = _('Library Index')
  @description = _('Library Index')
 %>
-<p>
-<%= manual_home_link() %>
-&gt; <%= _("All Libraries") %>
-</p>
+<% if @conf[:canonical_base_url] %>
+<script type="application/ld+json">
+<%=
+  breadcrumb_json_ld(
+    [
+      {
+        name: manual_home_name,
+        url: absolute_url_to(@urlmapper.document_url('index'))
+      },
+      {
+        name: _('All Libraries'),
+        url: canonical_url
+      }
+    ]
+  )
+%>
+</script>
+<% end %>
+<header>
+  <nav>
+    <ol>
+      <li>
+        <%= manual_home_link() %>
+      </li>
+      <li>
+        <%= _('All Libraries') %>
+      </li>
+    </ol>
+  </nav>
+</header>
+
 <%
     headline_init
 %>

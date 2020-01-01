@@ -113,17 +113,23 @@ span.compileerror {
     font-weight: bold;
 }
 
+code, pre, tt {
+  font-size: 90%;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+}
+
 pre {
     line-height: 1.1;
     background-color: #f2f2f2;
-    padding: 10px;
+    padding: 1.1em;
     font-weight: normal;
+    overflow: auto;
 }
 
 pre.highlight {
     line-height: 1.1;
     background-color: #f2f2f2;
-    padding: 0px 10px 10px 10px;
+    padding: 0px 1.1em 1.1em 1.1em;
     font-weight: normal;
     position: relative;
 }
@@ -231,10 +237,6 @@ td.library {
     border: 3px solid white;
 }
 
-code {
-    font-family: monospace;
-}
-
 a {
     font-weight: bold;
     text-decoration: none;
@@ -283,6 +285,24 @@ hr {
     height: 1px;
 }
 
+header nav ol {
+    list-style-type: none;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    padding-left: 0;
+}
+
+header nav ol li {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+header nav ol li + li::before {
+    content: ">";
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+}
+
 @media print {
     body {
         font-family: osaka,'MS Mincho',serif;
@@ -308,6 +328,26 @@ hr {
 
 #top_search {
  position: absolute;
- top: 15px; 
- right: 10px; 
+ top: 15px;
+ right: 10px;
+}
+
+@media only screen and (max-width:425px) {
+    table.entries tr {
+        display: block;
+    }
+    td.signature {
+        display: block;
+        width: inherit;
+        text-indent: 0em !important;
+    }
+    td.description {
+        display: block;
+    }
+    dd {
+        margin: 0.3em 0em 1em 1em;
+    }
+    p {
+        overflow-wrap: break-word;
+    }
 }

@@ -2,12 +2,50 @@
  @title = "#{@entry.type} #{@entry.name}"
  @description = @entry.description
 %>
-<p>
-<%= manual_home_link() %>
-&gt; <a href="<%= library_index_url() %>"><%= _('All Libraries') %></a>
-&gt; <%= friendly_library_link(@entry.library.name) %>
-&gt; <%=h _(@entry.type.to_s + ' %s', @entry.name) %>
-</p>
+<% if @conf[:canonical_base_url] %>
+<script type="application/ld+json">
+<%=
+  breadcrumb_json_ld(
+    [
+      {
+        name: manual_home_name,
+        url: absolute_url_to(@urlmapper.document_url('index'))
+      },
+      {
+        name: _('All Libraries'),
+        url: absolute_url_to(library_index_url)
+      },
+      {
+        name: friendly_library_name(@entry.library.name),
+        url: absolute_url_to(@urlmapper.library_url(@entry.library.name))
+      },
+      {
+        name: _("#{@entry.type} %s", @entry.name),
+        url: canonical_url
+      }
+    ]
+  )
+%>
+</script>
+<% end %>
+<header>
+  <nav>
+    <ol>
+      <li>
+        <%= manual_home_link() %>
+      </li>
+      <li>
+        <a href="<%= library_index_url() %>"><%= _('All Libraries') %></a>
+      </li>
+      <li>
+        <%= friendly_library_link(@entry.library.name) %>
+      </li>
+      <li>
+        <%=h _(@entry.type.to_s + ' %s', @entry.name) %>
+      </li>
+    </ol>
+  </nav>
+</header>
 
 <%
     headline_init
@@ -82,6 +120,30 @@
 </dl>
 
 <%
+_myself, *ancestors = @entry.ancestors.reject { |c| %w[Object Kernel BasicObject].include?(c.name) }
+displayed_methods = Set.new(ents.instance_methods.map(&:name))
+%>
+
+<% unless ancestors.empty? %>
+  <%= headline(_("Ancestor Methods")) %>
+<dl>
+  <% ancestors.each do |c|
+       methods = c.partitioned_entries(@alevel).instance_methods
+         .reject { |m| displayed_methods.include?(m.name) }
+       next if methods.empty? %>
+<dt><%= _('Ancestor Methods %s', c.name) %></dt>
+<dd>
+    <% methods.each do |m| %>
+      <%= method_link(m.spec_string, m.name) %>
+      <% displayed_methods << m.name %>
+    <% end %>
+</dd>
+<%
+  end
+end %>
+</dl>
+
+<%
     items.each do |label, entries|
       unless entries.empty? %>
 <%=     headline(label) %>
@@ -101,4 +163,3 @@
     end
     headline_pop
 %>
-
