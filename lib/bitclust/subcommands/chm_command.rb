@@ -290,8 +290,8 @@ EOS
         @sitemap = {
           :library => Sitemap.new('ライブラリ', 'library/index.html'),
         }
-        @sitemap[:library] << Sitemap::Content.new('標準ライブラリ', 'library/_builtin.html')
-        @sitemap[:library] << Sitemap::Content.new('添付ライブラリ')
+        @sitemap[:library] << Sitemap::Content.new('組み込みライブラリ', 'library/_builtin.html')
+        @sitemap[:library] << Sitemap::Content.new('標準添付ライブラリ')
         @stdlibs = {}
         @index_contents = []
         @parser.banner = "Usage: #{File.basename($0, '.*')} chm [options]"
