@@ -229,9 +229,9 @@ module BitClust
         case @f.peek
         when /\A$/
           @f.gets
-        when  /\A[ \t\z]/
+        when  /\A[ \t]/
           line '<p>'
-          line compile_text(text_node_from_lines(@f.span(/\A[ \t\z]/)))
+          line compile_text(text_node_from_lines(@f.span(/\A[ \t]/)))
           line '</p>'
         when %r!\A//emlist(?:\[(?:[^\[\]]+?)?\]\[\w+?\])?\{!
           emlist
@@ -247,8 +247,8 @@ module BitClust
       line '<dd>'
       while /\A[ \t]/ =~ @f.peek or %r!\A//emlist(?:\[(?:[^\[\]]+?)?\]\[\w+?\])?\{! =~ @f.peek
         case @f.peek
-        when  /\A[ \t\z]/
-          line compile_text(text_node_from_lines(@f.span(/\A[ \t\z]/)))
+        when  /\A[ \t]/
+          line compile_text(text_node_from_lines(@f.span(/\A[ \t]/)))
         when %r!\A//emlist(?:\[(?:[^\[\]]+?)?\]\[\w+?\])?\{!
           emlist
         end
@@ -258,6 +258,11 @@ module BitClust
 
     def dt(s)
       "<dt>#{s}</dt>"
+    end
+
+    def stop_on_syntax_error?
+      return true unless @option.key?(:stop_on_syntax_error)
+      @option[:stop_on_syntax_error]
     end
 
     def emlist
@@ -276,7 +281,11 @@ module BitClust
             string BitClust::SyntaxHighlighter.new(src, filename).highlight
           rescue BitClust::SyntaxHighlighter::Error => ex
             $stderr.puts ex.message
-            exit(false)
+            if stop_on_syntax_error?
+              exit(false)
+            else
+              string src
+            end
           end
         else
           string src
@@ -319,7 +328,7 @@ module BitClust
 
     def see
       header = @f.gets
-      cmd = header.slice!(/\A\@\w+/)
+      header.slice!(/\A\@\w+/)
       body = [header] + @f.span(/\A\s+\S/)
       line '<p>'
       line '[SEE_ALSO] ' + compile_text(text_node_from_lines(body))
@@ -328,7 +337,7 @@ module BitClust
 
     def todo
       header = @f.gets
-      cmd = header.slice!(/\A\@\w+/)
+      header.slice!(/\A\@\w+/)
       body = header
       line '<p class="todo">'
       line '[TODO]' + body
@@ -544,7 +553,7 @@ module BitClust
     end
 
     def rdoc_url(method_id, version)
-      cname, tmark, mname, libname = methodid2specparts(method_id)
+      cname, tmark, mname, _libname = methodid2specparts(method_id)
       tchar = typemark2char(tmark) == 'i' ? 'i' : 'c'
       cname = cname.split(".").first
       cname = cname.gsub('::', '/')

@@ -132,7 +132,8 @@ module BitClust
     def on_default(event, token, data)
       event_name = event.to_s.sub(/\Aon_/, "")   # :on_event --> "event"
       style = COLORS[event_name.to_sym]
-      data << (style ? "<span class=\"#{style}\">#{escape_html(token)}</span>" : token)
+      escaped_token = escape_html(token)
+      data << (style ? "<span class=\"#{style}\">#{escaped_token}</span>" : escaped_token)
       data
     end
 
@@ -215,6 +216,7 @@ module BitClust
       when token == "::" && [:class, :module].include?(@stack.last)
         @name_buffer << token
       else
+        @stack.pop if @stack.last == :method_call
         on_default(:on_op, token, data)
       end
       data

@@ -39,6 +39,7 @@ module BitClust
     attr_reader :id
 
     def ==(other)
+      return false if self.class != other.class
       @id == other.id
     end
 
@@ -209,8 +210,14 @@ module BitClust
 
     def ancestors
       @ancestors ||=
+        if self.object? && superclass()
+          myself, *ancestors = superclass().ancestors
+          [ myself, included().map {|m| m.ancestors },
+            ancestors ].flatten
+        else
           [ self, included().map {|m| m.ancestors },
             superclass() ? superclass().ancestors : [] ].flatten
+        end
     end
 
     def included_modules

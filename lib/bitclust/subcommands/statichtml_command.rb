@@ -67,6 +67,10 @@ module BitClust
           @bitclust_html_base + "/" + filename
         end
 
+        def custom_js_url(filename)
+          @bitclust_html_base + "/" + filename
+        end
+
         def favicon_url
           @bitclust_html_base + "/" + @favicon_url
         end
@@ -94,7 +98,12 @@ module BitClust
 
       def initialize
         if Object.const_defined?(:Encoding)
-          Encoding.default_external = 'utf-8'
+          begin
+            verbose, $VERBOSE = $VERBOSE, false
+            Encoding.default_external = 'utf-8'
+          ensure
+            $VERBOSE = verbose
+          end
         end
         super
         @verbose = true
@@ -104,6 +113,7 @@ module BitClust
         @suffix = ".html"
         @gtm_tracking_id = nil
         @meta_robots_content = ["noindex"]
+        @stop_on_syntax_error = true
         @parser.banner = "Usage: #{File.basename($0, '.*')} statichtml [options]"
         @parser.on('-o', '--outputdir=PATH', 'Output directory') do |path|
           begin
@@ -136,6 +146,9 @@ module BitClust
         end
         @parser.on('--meta-robots-content=VALUE1,VALUE2,...', Array, 'HTML <meta> element: <meta name="robots" content="VALUE1,VALUE2..."') do |values|
           @meta_robots_content = values
+        end
+        @parser.on('--no-stop-on-syntax-error', 'Do not stop on syntax error') do |boolean|
+          @stop_on_syntax_error = boolean
         end
         @parser.on('--[no-]quiet', 'Be quiet') do |quiet|
           @verbose = !quiet
@@ -180,19 +193,21 @@ module BitClust
                     :verbose => @verbose)
         create_index_html(@outputdir)
         FileUtils.cp(@manager_config[:themedir] + @manager_config[:css_url],
-                     @outputdir.to_s, {:verbose => @verbose, :preserve => true})
+                     @outputdir.to_s, :verbose => @verbose, :preserve => true)
         FileUtils.cp(@manager_config[:themedir] + "syntax-highlight.css",
-                     @outputdir.to_s, {:verbose => @verbose, :preserve => true})
+                     @outputdir.to_s, :verbose => @verbose, :preserve => true)
+        FileUtils.cp(@manager_config[:themedir] + "script.js",
+                     @outputdir.to_s, :verbose => @verbose, :preserve => true)
         FileUtils.cp(@manager_config[:themedir] + @manager_config[:favicon_url],
-                     @outputdir.to_s, {:verbose => @verbose, :preserve => true})
+                     @outputdir.to_s, :verbose => @verbose, :preserve => true)
         Dir.mktmpdir do |tmpdir|
           FileUtils.cp_r(@manager_config[:themedir] + 'images', tmpdir,
-                         {:verbose => @verbose, :preserve => true})
+                         :verbose => @verbose, :preserve => true)
           Dir.glob(File.join(tmpdir, 'images', '/**/.svn')).each do |d|
-            FileUtils.rm_r(d, {:verbose => @verbose})
+            FileUtils.rm_r(d, :verbose => @verbose)
           end
           FileUtils.cp_r(File.join(tmpdir, 'images'), @outputdir.to_s,
-                         {:verbose => @verbose, :preserve => true})
+                         :verbose => @verbose, :preserve => true)
         end
       end
 
@@ -212,6 +227,7 @@ module BitClust
           :canonical_base_url => @canonical_base_url,
           :gtm_tracking_id => @gtm_tracking_id,
           :meta_robots_content => @meta_robots_content,
+          :stop_on_syntax_error => @stop_on_syntax_error,
         }
         @manager_config[:urlmapper] = URLMapperEx.new(@manager_config)
         @urlmapper = @manager_config[:urlmapper]

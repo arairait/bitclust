@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html lang="ja-JP">
 <head>
-  <%= google_tag_manager %>
-  <%= meta_robots %>
-  <meta http-equiv="Content-Type" content="text/html; charset=<%=h charset() %>">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="<%=h css_url() %>">
-  <link rel="stylesheet" type="text/css" href="<%=h custom_css_url("syntax-highlight.css") %>">
-  <link rel="icon" type="image/png" href="<%=h favicon_url() %>">
-  <% if @conf[:canonical_base_url] %>
-  <link rel="canonical" href="<%= canonical_url() %>">
-  <% end %>
-  <title><%=h @title %> (Ruby <%=h ruby_version %> リファレンスマニュアル)</title>
-  <meta name="description" content="<%=h @description %>">
+<%= google_tag_manager %>
+<%= meta_robots %>
+<meta charset="<%=h charset() %>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="<%=h css_url() %>">
+<link rel="stylesheet" href="<%=h custom_css_url("syntax-highlight.css") %>">
+<link rel="icon" type="image/png" href="<%=h favicon_url() %>">
+<% if @conf[:canonical_base_url] %>
+<link rel="canonical" href="<%= canonical_url() %>">
+<% end %>
+<title><%=h @title %> (Ruby <%=h ruby_version %> リファレンスマニュアル)</title>
+<meta name="description" content="<%=h @description %>">
+<script src="<%=h custom_js_url('script.js') %>"></script>
 </head>
 <body>
 <%= yield %>
-<div id="footer">
+<footer id="footer">
   <a rel="license" href="https://creativecommons.org/licenses/by/3.0/">
     <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" />
   </a>
 
-  フィードバックは<a href="https://github.com/rurema/doctree">こちら</a>
-</div>
+  フィードバックは<a href="https://github.com/rurema/doctree/issues/new" id="feedback-link">こちら</a>
+  <script>if (window.URLSearchParams) { document.getElementById("feedback-link").search = new URLSearchParams({'body': document.location}); }</script>
+</footer>
 </body>
 </html>

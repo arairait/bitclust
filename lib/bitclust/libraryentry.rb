@@ -35,6 +35,7 @@ module BitClust
         @link_checked = false
       end
       init_properties
+      @all_classes = nil
     end
 
     attr_reader :id, :name
@@ -42,6 +43,7 @@ module BitClust
     alias label name
 
     def ==(other)
+      return false if self.class != other.class
       @id == other.id
     end
 
@@ -217,5 +219,5 @@ module BitClust
         @db.dirty_library self
       end
     end
- end
+  end
 end

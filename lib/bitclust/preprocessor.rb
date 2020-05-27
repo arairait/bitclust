@@ -76,6 +76,11 @@ module BitClust
     def next_line(f)
       while line = f.gets
         case line
+        when /\A(?!\#@)/
+          if current_cond.processing?
+            @buf.push line
+            break
+          end
         when /\A\#@\#/   # preprocessor comment
           ;
         when /\A\#@todo/i
@@ -86,7 +91,7 @@ module BitClust
             file = $1.strip
             basedir = File.dirname(line.location.file)
             @buf.concat Preprocessor.process("#{basedir}/#{file}", @params)
-          rescue Errno::ENOENT => err
+          rescue Errno::ENOENT => _err
             raise WrongInclude, "#{line.location}: \#@include'ed file not exist: #{file}"
           end
         when /\A\#@since\b/
@@ -107,13 +112,8 @@ module BitClust
             parse_error "no matching \#@if", line  if cond_toplevel?
             cond_pop
           end
-        when /\A\#@/
-          parse_error "unknown preprocessor directive", line
         else
-          if current_cond.processing?
-            @buf.push line
-            break
-          end
+          parse_error "unknown preprocessor directive", line
         end
       end
       if @buf.empty?
@@ -321,7 +321,7 @@ module BitClust
             file = $1.strip
             basedir = File.dirname(line.location.file)
             @buf.concat LineCollector.process("#{basedir}/#{file}")
-          rescue Errno::ENOENT => err
+          rescue Errno::ENOENT => _err
             raise WrongInclude, "#{line.location}: \#@include'ed file not exist: #{file}"
           end
         else

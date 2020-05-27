@@ -114,8 +114,8 @@ span.compileerror {
 }
 
 code, pre, tt {
-  font-size: 90%;
-  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+    font-size: 90%;
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
 }
 
 pre {
@@ -132,6 +132,34 @@ pre.highlight {
     padding: 0px 1.1em 1.1em 1.1em;
     font-weight: normal;
     position: relative;
+}
+
+/* for COPY */
+.highlight__copy-button {
+  float: right;
+  margin: 0 -1.1em 0.25em 0.5em;
+  padding: 0.25em 0.5em;
+  background: #DDD;
+  opacity: 0.75;
+  cursor: pointer;
+}
+.highlight__copy-button:hover {
+  background: #EE8;
+  opacity: 1;
+}
+.highlight__copy-button::after {
+  content: "COPY"
+}
+.highlight__copy-button.copied {
+  background: #070;
+  color: white;
+}
+.highlight__copy-button.copied::after {
+  content: "COPIED"
+}
+.highlight__copy-text {
+  position: fixed;
+  left: -1000px;
 }
 
 pre .caption {
@@ -285,22 +313,57 @@ hr {
     height: 1px;
 }
 
-header nav ol {
+.inline-breadcrumb-list {
+    display: inline-block;
     list-style-type: none;
-    margin-bottom: 0.5rem;
-    margin-top: 0.5rem;
+    margin-bottom: 0;
+    margin-top: 0;
     padding-left: 0;
 }
 
-header nav ol li {
+.inline-breadcrumb-list li {
     display: inline-block;
     margin-bottom: 0;
 }
 
-header nav ol li + li::before {
+.inline-breadcrumb-list li + li::before {
     content: ">";
     padding-left: 0.1rem;
     padding-right: 0.1rem;
+}
+
+.inline-ancestors-list {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    list-style-type: none;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-left: 0;
+}
+
+.inline-ancestors-list li {
+    margin-bottom: 0;
+}
+
+.inline-ancestors-list li + li::after {
+    content: "<";
+    padding-right: 0.3rem;
+}
+
+.class-toc {
+    list-style: none;
+    margin: 0.5em 0;
+    padding: 0;
+    column-gap: 1em;
+    column-width: 10em;
+    column-rule: 1px dotted #BBB;
+}
+
+.class-toc > li {
+    padding-left: 1em;
+    text-indent: -1em;
+    word-break: break-all;
+    break-inside: avoid;
 }
 
 @media print {

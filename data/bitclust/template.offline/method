@@ -1,6 +1,6 @@
 <%
     entry = @entries.sort.first
-    @title = "#{entry.type_label} #{entry.label}"
+    @title = entry.label
     @description = entry.description
 %>
 <% if @conf[:canonical_base_url] %>
@@ -35,7 +35,7 @@
 <% end %>
 <header>
   <nav>
-    <ol>
+    <ol class="inline-breadcrumb-list">
       <li>
         <%= manual_home_link() %>
       </li>
@@ -53,10 +53,11 @@
       </li>
     </ol>
   </nav>
-</header>
-
 <% headline_init %>
 <%= headline("#{entry.type_label} #{entry.label}") %>
+</header>
+
+<main>
 <dl class="methodlist">
 <%
     headline_push
@@ -68,3 +69,4 @@
     headline_pop
 %>
 </dl>
+</main>
